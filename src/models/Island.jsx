@@ -12,9 +12,14 @@ import { useFrame, useThree } from '@react-three/fiber'
 import islandScene from '../assets/3d/island.glb'
 import { a } from '@react-spring/three'
 
-const Island = (props) => {
+const Island = ({isRotating, setIsRotating, ... props}) => {
     const islandRef = useRef()
-    const { nodes, materials } = useGLTF(islandScene)
+
+    const {gl, viewport} = useThree();
+    const { nodes, materials } = useGLTF(islandScene);
+    const lastX = useRef(0);
+    const lastY = useRef(0);
+    const dampuingFactor = 0.95;
 
     return (
         <a.group ref={islandRef}{...props} >

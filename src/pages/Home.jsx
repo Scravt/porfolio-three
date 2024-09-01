@@ -5,6 +5,7 @@ import Island from '../models/Island'
 import { Plane} from '../models/Plane'
 import { Sky } from '../models/Sky'
 import { Bird } from '../models/Bird'
+import { useState } from 'react'
 
 {/*   <div className='absolute top-28 left-0 right-0 z-10 flex items-center justify-center' >
         ASDASD
@@ -12,6 +13,8 @@ import { Bird } from '../models/Bird'
  */}
 
 export const Home = () => {
+ const [isRotating, setIsRotating] = useState(false);
+
   const adjustIsIslandForScreenSize = () => {
     let screenScale = null;
     let screenPosition = [0, -6.5, -43];
@@ -28,11 +31,27 @@ export const Home = () => {
 
   const [islandScale, islandPosition, islandRotation] = adjustIsIslandForScreenSize();
 
+  const adjustPlaneForScreenSize = () => {
+    let screenScale, screenPosition;
+
+
+    if (window.innerWidth < 768) {
+      screenScale = [1.5, 1.5,1.5];
+      screenPosition = [0, -1,5, 0];
+    } else {
+      screenScale = [3, 3, 3];
+      screenPosition = [0, -4, -4]; 
+
+    }
+    return [screenScale, screenPosition];
+  }
+
+  const [planeScale, planePosition] = adjustPlaneForScreenSize();
 
   return (
     <section className='w-full h-screen relative' >
       <Canvas
-        className="w-full h-screen bg-transparent"
+        className={`w-full h-screen bg-transparent ${isRotating ? 'cursor-grabbing' : 'cursor-grab'}  `}
         camara={{ near: 0.1, far: 1000 }}
       >
         <Suspense fallback={<Loader />}>
@@ -46,8 +65,14 @@ export const Home = () => {
             position={islandPosition}
             scale={islandScale}
             rotation={islandRotation}
+            setIsRotating={setIsRotating}
           />
-          <Plane />
+          <Plane 
+            isRotating={isRotating}
+            planeScale={planeScale}
+            planePosition={planePosition}
+            rotation={[0, 20, 0]}
+          />
 
         </Suspense>
 
