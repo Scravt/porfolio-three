@@ -12,7 +12,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import islandScene from '../assets/3d/island.glb'
 import { a } from '@react-spring/three'
 
-const Island = ({ isRotating, setIsRotating, setCurrentStage, ...props }) => {
+export const Island = ({ isRotating, setIsRotating, setCurrentStage, ...props }) => {
     const islandRef = useRef()
 
     const { gl, viewport } = useThree();
@@ -42,7 +42,9 @@ const Island = ({ isRotating, setIsRotating, setCurrentStage, ...props }) => {
         e.preventDefault();
         if (isRotating) {
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+
             const delta = (clientX - lastX.current) / viewport.width;
+            
             islandRef.current.rotation.y += delta * Math.PI * 0.01;
 
             lastX.current = clientX;
@@ -108,15 +110,19 @@ const Island = ({ isRotating, setIsRotating, setCurrentStage, ...props }) => {
             switch (true) {
                 case normalizaedRotation >= 5.45 && normalizaedRotation <= 5.85:
                     setCurrentStage(4)
+                    console.log('stage 4')
                     break;
                 case normalizaedRotation => 0.85 && normalizaedRotation <= 1.3:
                     setCurrentStage(3)
+                    console.log('stage 3')
                     break;
                 case normalizaedRotation >= 2.4 && normalizaedRotation <= 2.6:
                     setCurrentStage(2)
+                    console.log('stage 2')
                     break;
                 case normalizaedRotation >= 4.25 && normalizaedRotation <= 4.75:
                     setCurrentStage(1)
+                    console.log('stage 1')
                     break;
                 default:
                     setCurrentStage(null)
