@@ -112,7 +112,7 @@ export const Island = ({ isRotating, setIsRotating, setCurrentStage, ...props })
                     setCurrentStage(4)
                     console.log('stage 4')
                     break;
-                case normalizaedRotation => 0.85 && normalizaedRotation <= 1.3:
+                case normalizaedRotation >= 0.85 && normalizaedRotation <= 1.3:
                     setCurrentStage(3)
                     console.log('stage 3')
                     break;
