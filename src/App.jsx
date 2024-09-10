@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import { Navbar } from "./componentes/Navbar"
-import { Home, About, Projects, Contact } from "./pages"
+import { Home, About, Projects } from "./pages"
+import { Contact } from "./pages/Contact"
 
 
 function App() {
