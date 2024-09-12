@@ -2,19 +2,25 @@ import { useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
+import  useAlert  from '../hooks/useAlert'
+import Alert from '../componentes/Alert'
 
 import Fox from '../models/Fox'
 import { Loader } from '../componentes/Loader'
 
 export const Contact = () => {
+
+
+  const {alert, showAlert, hideAlert} = useAlert()
+
   const FormRef = useRef(null)
   const [form, setForm] = useState({
     name: '',
     email: '',
     message: ''
   })
-  const [isLoading, , , setisLoading, ,] = useState(false)
-  const [currentAnimation, setcurrentAnimation] = useState('idle')
+  const [isLoading, setisLoading ] = useState(false)
+  const [currentAnimation, setCurrentAnimation] = useState('idle')
 
   const handleChange = (e) => {
     setForm({
@@ -26,7 +32,7 @@ export const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     setisLoading(true)
-    setcurrentAnimation('hit')
+    setCurrentAnimation('hit')
     emailjs
       .send(
         import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
@@ -41,8 +47,11 @@ export const Contact = () => {
         import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
       ).then(() => {
         setisLoading(false)
+        showAlert({show: true, text: 'Message sent successfully', type: 'success'})
+
         setTimeout(() => {
-          setcurrentAnimation('idle')
+          setCurrentAnimation('idle')
+          hideAlert()
 
           setForm({
             name: '',
@@ -55,14 +64,15 @@ export const Contact = () => {
 
 
       }).catch((error) => {
-        setcurrentAnimation('idle')
+        setCurrentAnimation('idle')
+        showAlert({show: true, text: 'An error occurred, Please try again later', type: 'danger'})
         setisLoading(false)
         console.error('An error occurred, Please try again later', error)
       })
   }
-  const handleFocus = () => { setisLoading('walk') }
-  const handleReset = () => { setcurrentAnimation('idle') }
-  const handleBlur = () => { }
+  const handleFocus = () => { setCurrentAnimation('walk') }
+  const handleReset = () => { }
+  const handleBlur = () => {setCurrentAnimation('idle')  }
 
 
   return (
@@ -134,7 +144,7 @@ export const Contact = () => {
       <div className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
         <Canvas
           camera={{
-            position: [0, 0, 10],
+            position: [0, 0, 5],
             fov: 75,
             near: 0.1,
             far: 10000,
@@ -151,11 +161,11 @@ export const Contact = () => {
           />
 
           <Suspense fallback={<Loader />}>
-            <Fox
+          <Fox
               currentAnimation={currentAnimation}
               position={[0.5, 0.35, 0]}
-              rotation={[Math.PI / 4, Math.PI / 6, 0]} // Rotar en diagonal
-              scale={[0.2, 0.2, 0.2]} // Escala ajustada
+              rotation={[12.629, -0.6, 0]}
+              scale={[0.5, 0.5, 0.5]}
             />
           </Suspense>
         </Canvas>
