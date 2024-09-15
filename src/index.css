@@ -31,7 +31,7 @@ body:has(.card[data-color="green"]:hover) {
   }
 
   .subhead-text {
-    @apply font-semibold sm:text-3xl text-xl relative font-poppins;
+    @apply font-semibold sm:text-3xl text-xl relative /*font-poppins*/;
   }
 
   .blue-gradient_text {
