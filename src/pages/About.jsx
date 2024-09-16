@@ -1,6 +1,7 @@
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import { skills, experiences } from '../constants/index'
+import CTA from '../componentes/CTA';
 
 export const About = () => {
   return (
@@ -18,7 +19,6 @@ export const About = () => {
       <div className='py-10 flex flex-col'>
         <h3 className='subhead-text'>My Skills</h3>
         <div className='mt-16 flex flex-wrap gap-12'>
-
           {skills.map((skill, index) => (
             <div key={index} className='block-container w-20 h-20'>
               <div className='btn-back rounded-xl ' />
@@ -38,10 +38,30 @@ export const About = () => {
           <p>I've  worked as a freelance developer for the past 2 years. I've built web applications for clients using React, Node.js, and MongoDB. I've also worked on personal projects to improve my skills and learn new technologies. I'm always looking for new opportunities to work on exciting projects and collaborate with other developers.
           </p>
         </div>
+
         <div className='mt-12 flex'>
           <VerticalTimeline>
             {experiences.map((experience, index) => (
-              <VerticalTimelineElement>
+              <VerticalTimelineElement 
+                key={experience.company_name}
+                icon={
+                  <div className='flex justify-center items-center w-full h-full'> 
+                    <img src={experience.icon} alt={experience.company_name} 
+                    className='w-[60%] h-[60%] object-contain'
+                    />
+                  </div>
+                }
+                contentStyle={{
+                  borderBottom:'8px',
+                  borderStyle:'solid',
+                  borderBottomColor:experience.iconBg,
+                  boxShadow: 'none'                 
+                }}
+                iconStyle={{
+                  background: experience.iconBg,
+                }}
+                >
+
                 <div>
                   <h3 className='text-black text-xl font-semibold '>
                     {experience.title}
@@ -54,21 +74,20 @@ export const About = () => {
                   </p>
                   <ul className='my-5 list-disc space-y-2'>
                     {experience.points.map((item, index) => (
-                      <li key={index} className='text-black-500/50 font-normal pl-1 text-sm'>
+                      <li key={`experience-${index}`} className='text-black-500/50 font-normal pl-1 text-sm'>
                         {item}
                       </li>
                     ))}
-
                   </ul>
-
                 </div>
               </VerticalTimelineElement>
             ))}
           </VerticalTimeline>
-
         </div>
-
       </div>
+
+      <hr className='border-slate-200'/>
+      <CTA />
 
     </section>
   )
